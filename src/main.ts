@@ -1,3 +1,4 @@
+import "./utils/readConfig";
 import {startKoa} from "./app";
 
 async function start() {
@@ -6,5 +7,5 @@ async function start() {
 }
 
 start().catch(reason => {
-  console.log(reason)
+  console.log('err')
 })
