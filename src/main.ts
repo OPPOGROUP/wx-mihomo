@@ -1,11 +1,9 @@
 import "./utils/readConfig";
 import {startKoa} from "./app";
+import {initStore} from "./store";
 
-async function start() {
-  await startKoa(11452)
-  console.log('listen at 11452')
-}
-
-start().catch(reason => {
-  console.log('err')
-})
+initStore()
+  .then(() => startKoa(11452))
+  .then(() => {
+    console.log('listen at 11452')
+  })

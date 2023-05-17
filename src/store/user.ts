@@ -1,15 +1,16 @@
 import {PusherUser} from "../core/pusher/PusherUser";
 import {getAllUser} from "../data/maria/user";
 
-const userMap = new Map<number, PusherUser>()
-const uidSet = new Set<string>()
+export const userMap = new Map<number, PusherUser>()
+export const uidMap = new Map<string, PusherUser>()
 
 export const addUser = (user: PusherUser) => {
   userMap.set(user.id, user)
-  uidSet.add(user.uid)
+  uidMap.set(user.uid, user)
 }
 
-export const hasUser = (uid: string) => uidSet.has(uid)
+export const hasUserByUid = (uid: string) => uidMap.has(uid)
+export const hasUserById = (id: number) => userMap.has(id)
 
 export async function initUserStore() {
   const users = await getAllUser()

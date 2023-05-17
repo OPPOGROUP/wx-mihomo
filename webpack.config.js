@@ -7,7 +7,7 @@ function createExternals() {
     const ret = {}
     const keys = Object.keys(pkg.dependencies ?? {})
     for (const key of keys) {
-        ret[key] = key
+        ret[key] = `commonjs ${key}`
     }
     return ret
 }
@@ -16,6 +16,7 @@ const webpackConfig = {
     entry: './src/main.ts',
     mode: "production",
     target: 'node',
+    externals: createExternals(),
     module: {
         rules: [
             {

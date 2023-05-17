@@ -12,6 +12,15 @@ export interface PusherFollowInfo {
   }
 }
 
+export interface PusherUpMsg {
+  action: 'send_up_cmd',
+  data: {
+    uid: string
+    time: number
+    content: string
+  }
+}
+
 export interface PusherSendBody {
   appToken: string
   content: string

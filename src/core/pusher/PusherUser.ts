@@ -1,5 +1,6 @@
 import {PusherFollowInfo} from "../../types/pusher";
 import {PusherUserRaw} from "../../types/user";
+import {sendWithUid} from "./send";
 
 let ID = 0
 const getNewId = () => {
@@ -27,10 +28,15 @@ export class PusherUser {
   static fromRaw(raw: PusherUserRaw) {
     return new PusherUser(raw)
   }
+
   toRaw(): PusherUserRaw {
     return {
       uid: this.uid,
       id: this.id
     }
+  }
+
+  send(content: string, summary?: string) {
+    return sendWithUid(this.uid, content, summary)
   }
 }
