@@ -17,15 +17,20 @@
     "@types/mysql": "^2.15.21",
     "@types/node": "^20.1.4",
     "clean-webpack-plugin": "^4.0.0",
+    "grpc-tools": "^1.12.4",
     "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1",
+    "ts-protoc-gen": "0.15.1-pre.a71b34e",
     "typescript": "^5.0.4",
     "webpack": "^5.82.1",
-    "webpack-cli": "^5.1.1"
+    "webpack-cli": "^5.1.1",
+    "protoc-gen-js": "^3.21.2"
   },
   "dependencies": {
-    "yaml": "^2.2.2",
+    "google-protobuf": "^3.21.2",
+    "@grpc/grpc-js": "^1.8.14",
     "koa": "^2.14.2",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "yaml": "^2.2.2"
   }
 }
