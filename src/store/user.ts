@@ -9,9 +9,6 @@ export const addUser = (user: PusherUser) => {
   uidMap.set(user.uid, user)
 }
 
-export const hasUserByUid = (uid: string) => uidMap.has(uid)
-export const hasUserById = (id: number) => userMap.has(id)
-
 export async function initUserStore() {
   const users = await getAllUser()
   for (const user of users) {

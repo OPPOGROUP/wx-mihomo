@@ -25,6 +25,7 @@ goog.exportSymbol('proto.AccountInfoRequest', null, global);
 goog.exportSymbol('proto.AccountInfoResponse', null, global);
 goog.exportSymbol('proto.AccountInfoResponse.AccountInfo', null, global);
 goog.exportSymbol('proto.AccountInfoResponse.AccountInfo.GameInfo', null, global);
+goog.exportSymbol('proto.ErrorCode', null, global);
 goog.exportSymbol('proto.GameType', null, global);
 goog.exportSymbol('proto.RegisterRequest', null, global);
 goog.exportSymbol('proto.RegisterRequest.AccountType', null, global);
@@ -1810,6 +1811,15 @@ proto.AccountInfoResponse.prototype.hasAccountInfo = function() {
   return jspb.Message.getField(this, 2) != null;
 };
 
+
+/**
+ * @enum {number}
+ */
+proto.ErrorCode = {
+  OK: 0,
+  INVALID_REQUEST_PARAM: 10000,
+  ERROR_CREATE_USER: 10001
+};
 
 /**
  * @enum {number}

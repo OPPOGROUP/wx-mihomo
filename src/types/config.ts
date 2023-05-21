@@ -10,7 +10,12 @@ export interface MariaConfig {
   database: string
 }
 
+export interface GrpcConfig {
+  address: string
+}
+
 export interface AppConfig {
   pusher: PusherConfig
   maria: MariaConfig
+  grpc: GrpcConfig
 }
