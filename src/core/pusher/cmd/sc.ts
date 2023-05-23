@@ -1,6 +1,6 @@
 import {WxCmd} from "../../../types/cmd";
 import {hoyolibClient} from "../../proto/client";
-import {ErrorCode, GameType, RegisterRequest, RegisterResponse} from "../../../proto/hoyolib_pb/hoyolib_pb";
+import {ErrorCode, GameType, RegisterRequest, RegisterResponse} from 'mihomo-protocol'
 import AccountType = RegisterRequest.AccountType;
 import {updateCookie} from "../../../data/maria/user";
 

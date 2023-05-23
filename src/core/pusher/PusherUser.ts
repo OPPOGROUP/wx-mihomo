@@ -7,9 +7,12 @@ const getNewId = () => {
   return ++ID
 }
 
-export class PusherUser {
+export class PusherUser implements PusherUserRaw {
   readonly uid: string
   readonly id: number
+  cookie?: string
+  nickname?: string
+
   constructor(raw: PusherUserRaw) {
     this.uid = raw.uid
     this.id = raw.id
@@ -32,7 +35,9 @@ export class PusherUser {
   toRaw(): PusherUserRaw {
     return {
       uid: this.uid,
-      id: this.id
+      id: this.id,
+      cookie: this.cookie,
+      nickname: this.nickname
     }
   }
 

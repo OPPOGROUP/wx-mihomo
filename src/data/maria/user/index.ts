@@ -9,13 +9,19 @@ export const getAllUser = async () => {
     return []
   }) as Promise<PusherUserRaw[]>
 }
-
 export const insertUser = async (user: PusherUser) => {
   const q= `INSERT INTO user SET ?`
   return query(q, [user.toRaw()])
 }
 
+const updateUser = async (user: PusherUser, key: string, value: string) => {
+  return query(`update user set ${key}='${value}' where id=${user.id}`)
+}
+
 export const updateCookie = async (user: PusherUser, cookie: string) => {
-  const q = `update user set cookie='${cookie}' where id=${user.id}`
-  return query(q)
+  return updateUser(user, 'cookie', cookie)
+}
+
+export const updateNickname = async (user: PusherUser, nickname: string) => {
+  return updateUser(user, 'nickname', nickname)
 }

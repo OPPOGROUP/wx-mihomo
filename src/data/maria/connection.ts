@@ -1,4 +1,4 @@
-import { createPool } from 'mysql'
+import {createPool, MysqlError} from 'mysql'
 import {config} from "../../utils/readConfig";
 
 const conPool = createPool({
@@ -13,7 +13,6 @@ export const query = (s: string, payload?: any[]) => {
       else {
         connection.query(s, payload, (err, result) => {
           connection.release()
-
           if (err) { reject(err) }
           else {
             resolve(result)

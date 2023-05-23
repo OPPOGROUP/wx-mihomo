@@ -1,9 +1,7 @@
-import {HoyolibClient} from "../proto/hoyolib_pb/hoyolib_grpc_pb";
-import {credentials} from "@grpc/grpc-js";
-import {RegisterRequest} from "../proto/hoyolib_pb/hoyolib_pb";
+import {RegisterRequest} from "mihomo-protocol";
 import AccountType = RegisterRequest.AccountType;
 
-const client = new HoyolibClient('hoyoapi.pilipili.moe:80', credentials.createInsecure())
+import {hoyolibClient} from "../core/proto/client";
 
 const createRegisterReq = (raw: RegisterRequest.AsObject) => {
   const ret = new RegisterRequest()
@@ -11,23 +9,23 @@ const createRegisterReq = (raw: RegisterRequest.AsObject) => {
   ret.setAccountType(raw.accountType)
   ret.setCookieToken(raw.cookieToken)
   ret.setGamesList(raw.gamesList)
-  ret.setUserId(0)
+  //ret.setUserId(0)
   return ret
 }
 
 const req = createRegisterReq({
-  accountId: '161111630',
-  accountType: AccountType.CN,
-  cookieToken: 'v2_GqTMod9RT0060K5Je16_rjqZP5NJ3oCyZFOW-W2gaYxEm0fVcAIxFkQB_uoMmnevNo-zBwAi3JqIEPfE24MlYERKwkdAGgwq0MceVfrL2KrPswo2s6ll',
-  gamesList: [1000, 1001],
-  userId: 0
+  accountId: '54952585',
+  accountType: AccountType.OVERSEA,
+  cookieToken: 'Vf32ivK4VtdlhW8e7yTd1umxdkkgj7DNUeK4KYvX',
+  gamesList: [1001],
+  userId: 100000
 })
 
-client.register(req, {
+hoyolibClient.register(req, {
   deadline: Date.now() + 3000
 },(err, value) => {
   if (err !== null) {
-    console.log('err')
+    console.log(err)
     return
   }
 

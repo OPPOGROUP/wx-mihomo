@@ -1,7 +1,7 @@
-import {HoyolibClient} from "../../proto/hoyolib_pb/hoyolib_grpc_pb";
+import {HoyolibClient} from "mihomo-protocol";
 import {config} from "../../utils/readConfig";
 import {credentials} from "@grpc/grpc-js";
 
-const { address } = config.grpc
+const { client } = config.grpc
 
-export const hoyolibClient = new HoyolibClient(address, credentials.createInsecure())
+export const hoyolibClient = new HoyolibClient(client, credentials.createInsecure())
