@@ -4,8 +4,7 @@ import {PusherUser} from "../../../core/pusher/PusherUser";
 
 export const getAllUser = async () => {
   const q = `SELECT * FROM user`
-  return query(q).catch(reason => {
-    console.log(reason)
+  return query(q).catch(() => {
     return []
   }) as Promise<PusherUserRaw[]>
 }
@@ -14,14 +13,13 @@ export const insertUser = async (user: PusherUser) => {
   return query(q, [user.toRaw()])
 }
 
-const updateUser = async (user: PusherUser, key: string, value: string) => {
-  return query(`update user set ${key}='${value}' where id=${user.id}`)
-}
+export const update = async (data: PusherUserRaw) => {
+  const keys = Reflect.ownKeys(data).filter(key => {
+    return typeof key === 'string' && key !== 'id' && Reflect.get(data, key) !== undefined
+  }) as (keyof PusherUserRaw)[]
 
-export const updateCookie = async (user: PusherUser, cookie: string) => {
-  return updateUser(user, 'cookie', cookie)
-}
-
-export const updateNickname = async (user: PusherUser, nickname: string) => {
-  return updateUser(user, 'nickname', nickname)
+  return query(
+    `update user set ${keys.map(key => `${key} = ?`).join(', ')} where id=${data.id}`,
+    keys.map(key => data[key])
+  )
 }

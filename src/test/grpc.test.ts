@@ -9,7 +9,7 @@ const createRegisterReq = (raw: RegisterRequest.AsObject) => {
   ret.setAccountType(raw.accountType)
   ret.setCookieToken(raw.cookieToken)
   ret.setGamesList(raw.gamesList)
-  //ret.setUserId(0)
+  ret.setUserId(100000)
   return ret
 }
 
@@ -17,8 +17,8 @@ const req = createRegisterReq({
   accountId: '54952585',
   accountType: AccountType.OVERSEA,
   cookieToken: 'Vf32ivK4VtdlhW8e7yTd1umxdkkgj7DNUeK4KYvX',
-  gamesList: [1001],
-  userId: 100000
+  gamesList: [1001, 1000],
+  userId: 0
 })
 
 hoyolibClient.register(req, {
@@ -32,7 +32,7 @@ hoyolibClient.register(req, {
   if (value !== undefined) {
     const header = value.getHeader()
     if (header !== undefined) {
-      console.log(`grpc:register {code: ${header.getCode()}, msg: ${header.getMessage()}, userId: ${header.getUserId()}`)
+      console.log(header.toObject())
     }
   }
 })

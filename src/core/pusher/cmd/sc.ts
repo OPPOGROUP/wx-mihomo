@@ -2,7 +2,9 @@ import {WxCmd} from "../../../types/cmd";
 import {hoyolibClient} from "../../proto/client";
 import {ErrorCode, GameType, RegisterRequest, RegisterResponse} from 'mihomo-protocol'
 import AccountType = RegisterRequest.AccountType;
-import {updateCookie} from "../../../data/maria/user";
+import {update} from "../../../data/maria/user";
+import {logger} from "../../../utils/logger";
+import {addUser, sgidMap} from "../../../store/user";
 
 const callRpcRegister = (
   {userId, cookieToken, gamesList, accountId, accountType}: RegisterRequest.AsObject
@@ -16,7 +18,7 @@ const callRpcRegister = (
 
   hoyolibClient.register(req, (err, value) => {
     if (
-      err === null ||
+      err !== null ||
       value === undefined ||
       value.getHeader()?.getCode() !== ErrorCode.OK
     ) {
@@ -37,29 +39,40 @@ export const cmdSC: WxCmd = {
     try {
       cookie = JSON.parse(content)
     } catch (e) {
+      console.error({name: 'sc parse err', content})
       await sendError()
       return
     }
-
     const accountId = cookie['account_id']
     const cookieToken = cookie['cookie_token']
     if (accountId === undefined || cookieToken === undefined) {
+      console.error({name: 'sc parse err', cookie})
       await sendError()
       return
     }
 
     const rpcRes = await callRpcRegister({
-      userId: user.id,
+      userId: user.sgid ?? 0,
       gamesList: [GameType.GENSHIN, GameType.STARRAIL],
-      accountType: AccountType.CN,
+      accountType: AccountType.OVERSEA,
       accountId,
       cookieToken
-    }).catch(() => null)
+    }).catch(reason => {
+      logger.error({name: 'sc rpc err', reason})
+      return null
+    })
 
     if (rpcRes !== null) {
-      await updateCookie(user, JSON.stringify({accountId, cookieToken}))
-      await user.send('恭喜, cookie注册成功!', '成功')
-      return
+      const header = rpcRes.getHeader()?.toObject()
+      if (header !== undefined) {
+        user.sgid = header.userId
+        user.cookie = content
+        await update(user.toRaw())
+        sgidMap.set(user.sgid, user)
+        await user.send('恭喜, cookie注册成功!', '成功')
+        logger.info({name: 'sc register', raw: user.toRaw()})
+        return
+      }
     }
 
     await sendError()

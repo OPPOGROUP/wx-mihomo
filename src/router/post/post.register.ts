@@ -1,4 +1,4 @@
-import {UseRouterFn} from "../router";
+import {koaLogger, UseRouterFn} from "../router";
 import {parseBody} from "../../utils/parseBody";
 import {isPusherFollowInfo, isPusherUpMsg} from "../../utils/checkBody";
 import {registerService} from "../../service/register";
@@ -12,6 +12,9 @@ export const postRegister: UseRouterFn = (router) => {
     ctx.status = 200
     if (isPusherFollowInfo(postBody)) {
       await registerService(postBody)
+        .catch(reason => {
+          koaLogger.error({name: 'follow', message: reason.message})
+        })
     } else if (isPusherUpMsg(postBody)) {
       await handleUpCmd(postBody)
     } else {

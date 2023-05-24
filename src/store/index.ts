@@ -6,11 +6,10 @@ export async function initStore() {
     initUserStore
   ]) {
     await fn().catch(reason => {
-      console.log(reason)
       errCount += 1
     })
   }
   if (errCount !== 0) {
-    throw new Error()
+    throw new Error(`${errCount} store init fail`)
   }
 }

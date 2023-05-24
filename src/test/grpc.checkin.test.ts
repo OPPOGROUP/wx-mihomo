@@ -1,10 +1,9 @@
 import {hoyolibClient} from "../core/proto/client";
-import {CheckInRequest, CheckInResponse} from "mihomo-protocol";
-import CheckInStatus = CheckInResponse.CheckInStatus;
+import {CheckInRequest} from "mihomo-protocol";
 
 const checkInReq = new CheckInRequest()
-checkInReq.setGamesList([1001])
-checkInReq.setUserId(100001)
+checkInReq.setGamesList([1001, 1000])
+checkInReq.setUserId(100000)
 
 hoyolibClient.checkIn(checkInReq, (err, value) => {
   if (err !== null) {
@@ -13,6 +12,9 @@ hoyolibClient.checkIn(checkInReq, (err, value) => {
   }
 
   if (value !== undefined) {
-    console.log(value.toObject())
+    const info = value.getCheckininfooverseaMap()
+    info.forEach((entry, key) => {
+      console.log(entry.toObject())
+    })
   }
 })

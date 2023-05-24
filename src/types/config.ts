@@ -10,10 +10,6 @@ export interface MariaConfig {
   database: string
 }
 
-export interface RedisConfig {
-  url: string
-}
-
 export interface GrpcConfig {
   client: string
   server: string
@@ -23,5 +19,7 @@ export interface AppConfig {
   pusher: PusherConfig
   maria: MariaConfig
   grpc: GrpcConfig
-  redis: RedisConfig
+  http: {
+    port: number
+  }
 }

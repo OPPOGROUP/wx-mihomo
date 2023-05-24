@@ -12,6 +12,7 @@ export class PusherUser implements PusherUserRaw {
   readonly id: number
   cookie?: string
   nickname?: string
+  sgid?: number
 
   constructor(raw: PusherUserRaw) {
     this.uid = raw.uid
@@ -19,6 +20,9 @@ export class PusherUser implements PusherUserRaw {
     if (raw.id > ID) {
       ID = raw.id
     }
+    this.cookie = raw.cookie
+    this.nickname = raw.nickname
+    this.sgid = raw.sgid
   }
 
   static fromFollow(info: PusherFollowInfo) {
@@ -37,11 +41,12 @@ export class PusherUser implements PusherUserRaw {
       uid: this.uid,
       id: this.id,
       cookie: this.cookie,
-      nickname: this.nickname
+      nickname: this.nickname,
+      sgid: this.sgid
     }
   }
 
-  send(content: string, summary?: string) {
-    return sendWithUid(this.uid, content, summary)
+  send(content: string, summary?: string, ct?: 1 | 2) {
+    return sendWithUid(this.uid, content, summary, ct)
   }
 }
